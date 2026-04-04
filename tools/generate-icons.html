@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+// Generate placeholder PNG icons for chordFriends
+// Open this file in a browser, right-click each canvas, and "Save image as..."
+
+function generateIcon(size) {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Background circle
+  const gradient = ctx.createLinearGradient(0, 0, size, size);
+  gradient.addColorStop(0, '#1a1a2e');
+  gradient.addColorStop(1, '#0f3460');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Music note symbol
+  ctx.fillStyle = '#f5c518';
+  ctx.font = `bold ${size * 0.5}px serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('♪', size/2, size/2);
+
+  // Border
+  ctx.strokeStyle = '#f5c518';
+  ctx.lineWidth = size * 0.04;
+  ctx.beginPath();
+  ctx.arc(size/2, size/2, size/2 - size*0.02, 0, Math.PI * 2);
+  ctx.stroke();
+
+  document.body.appendChild(document.createElement('h3')).textContent = `${size}x${size} — Right-click → Save as icon${size}.png`;
+  document.body.appendChild(canvas);
+
+  // Auto-download
+  const link = document.createElement('a');
+  link.download = `icon${size}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+[16, 48, 128].forEach(generateIcon);
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chordFriends</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎸 chordFriends 🎹</h1>
+    </header>
+
+    <div class="instrument-tabs">
+      <button class="tab active" data-instrument="guitar">Guitar</button>
+      <button class="tab" data-instrument="piano">Piano</button>
+      <button class="tab" data-instrument="ukulele">Ukulele</button>
+      <button class="tab" data-instrument="banjo">Banjo</button>
+      <button class="tab" data-instrument="mandolin">Mandolin</button>
+    </div>
+
+    <hr class="blue-divider">
+
+    <div class="difficulty-bar">
+      <button class="diff-btn" id="contentBtn"><span id="contentChords" class="content-label content-active">Chords</span>/<span id="contentScales" class="content-label content-dim">Scales</span></button>
+      <div class="dropdown-wrap">
+        <button class="diff-btn active" id="difficultyBtn">Easy → Hard</button>
+        <div class="dropdown-menu" id="difficultyMenu">
+          <button class="dropdown-item active" data-difficulty="progressive">Easy → Hard</button>
+          <button class="dropdown-item" data-difficulty="easy">Easy Only</button>
+          <button class="dropdown-item" data-difficulty="advanced">Advanced</button>
+          <button class="dropdown-item" data-difficulty="random">Random</button>
+        </div>
+      </div>
+      <button class="diff-btn" id="randomToggle">Random</button>
+    </div>
+
+    <div class="view-toggle">
+      <button class="view-btn active" data-mode="diagram">Diagram</button>
+      <button class="view-btn" data-mode="staff">Staff</button>
+      <button class="view-btn" data-mode="both">Both</button>
+    </div>
+
+    <hr class="blue-divider">
+
+    <div class="lookup-bar">
+      <div class="lookup-wrapper">
+        <button class="lookup-btn" id="allChordsBtn">All Chords/Scales ▾</button>
+        <select class="chord-dropdown" id="chordDropdown" style="display:none"></select>
+      </div>
+      <div class="lookup-wrapper">
+        <button class="lookup-btn" id="chordChartBtn">Chord/Scale Charts ▾</button>
+        <select class="chord-dropdown" id="chartDropdown" style="display:none"></select>
+      </div>
+    </div>
+
+    <div class="chord-display">
+      <h2 class="chord-name" id="chordName">C Major</h2>
+      <p class="chord-symbol" id="chordSymbol">C</p>
+      <div id="instrumentPanels"></div>
+    </div>
+
+    <div class="premium-bar">
+      <button class="premium-btn" id="hearChordBtn">🔊 Hear Chord <span class="premium-badge">★ Premium</span></button>
+      <button class="premium-btn" id="hearSongBtn">🎵 Hear in Song <span class="premium-badge">★ Premium</span></button>
+    </div>
+
+    <footer>
+      <button class="footer-plan-btn" id="footerPlanBtn">Get Premium</button>
+      <div class="info-bar">
+        <span id="dayCount">Day 1</span>
+        <span class="separator">•</span>
+        <span id="dateDisplay"></span>
+      </div>
+    </footer>
+
+    <!-- Chord Chart Overlay -->
+    <div class="chart-overlay" id="chartOverlay" style="display:none">
+      <div class="chart-header">
+        <h2 id="chartTitle">Guitar Chord Chart</h2>
+        <button class="chart-close" id="chartClose">✕</button>
+      </div>
+      <div class="chart-grid" id="chartGrid"></div>
+    </div>
+  </div>
+
+  <script src="chords.js"></script>
+  <script src="scales.js"></script>
+  <script src="chordRenderer.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

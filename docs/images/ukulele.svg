@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Ukulele - small body, short neck, 4 tuners, figure-8 shape -->
+  <!-- Neck (shorter than guitar) -->
+  <rect x="45" y="12" width="10" height="35" rx="2" fill="#deb570" stroke="#a07830" stroke-width="1.5"/>
+  <!-- Frets -->
+  <line x1="45" y1="22" x2="55" y2="22" stroke="#a07830" stroke-width="1"/>
+  <line x1="45" y1="30" x2="55" y2="30" stroke="#a07830" stroke-width="1"/>
+  <line x1="45" y1="38" x2="55" y2="38" stroke="#a07830" stroke-width="1"/>
+  <!-- Headstock (rounded) -->
+  <ellipse cx="50" cy="9" rx="9" ry="7" fill="#6b4226" stroke="#4a2e16" stroke-width="1"/>
+  <!-- Tuning pegs - 4 (ukulele has 4 strings) -->
+  <circle cx="43" cy="7" r="2.2" fill="#e8c06a" stroke="#a07830" stroke-width="0.5"/>
+  <circle cx="43" cy="12" r="2.2" fill="#e8c06a" stroke="#a07830" stroke-width="0.5"/>
+  <circle cx="57" cy="7" r="2.2" fill="#e8c06a" stroke="#a07830" stroke-width="0.5"/>
+  <circle cx="57" cy="12" r="2.2" fill="#e8c06a" stroke="#a07830" stroke-width="0.5"/>
+  <!-- Body - small rounded figure-8 -->
+  <ellipse cx="50" cy="58" rx="18" ry="14" fill="#f2c96d" stroke="#a07830" stroke-width="2"/>
+  <ellipse cx="50" cy="78" rx="24" ry="18" fill="#f2c96d" stroke="#a07830" stroke-width="2"/>
+  <!-- Sound hole -->
+  <circle cx="50" cy="65" r="7" fill="#6b4226"/>
+  <circle cx="50" cy="65" r="5.5" fill="#4a2e16"/>
+  <!-- Rosette decoration -->
+  <circle cx="50" cy="65" r="8.5" fill="none" stroke="#e8c06a" stroke-width="1"/>
+  <!-- Bridge -->
+  <rect x="44" y="85" width="12" height="2.5" rx="1" fill="#6b4226"/>
+  <!-- Strings (4) -->
+  <line x1="47" y1="14" x2="47" y2="85" stroke="#f0d890" stroke-width="0.5"/>
+  <line x1="49" y1="14" x2="49" y2="85" stroke="#f0d890" stroke-width="0.5"/>
+  <line x1="51" y1="14" x2="51" y2="85" stroke="#f0d890" stroke-width="0.5"/>
+  <line x1="53" y1="14" x2="53" y2="85" stroke="#f0d890" stroke-width="0.5"/>
+</svg>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scale Rendering Test</title>
+  <style>
+    body { font-family: sans-serif; background: #f5f5f5; padding: 20px; }
+    h2 { color: #4a7ab5; margin-top: 30px; }
+    h3 { color: #333; margin-top: 20px; }
+    .scale-row { display: flex; gap: 16px; align-items: flex-start; margin: 10px 0; }
+    canvas { border: 1px solid #ccc; background: #fff; border-radius: 6px; }
+    .label { font-size: 13px; color: #666; margin-bottom: 4px; }
+    select, button { font-size: 14px; padding: 6px 12px; margin: 4px; }
+  </style>
+</head>
+<body>
+  <h2>chordFriends - Scale Rendering Test</h2>
+
+  <div>
+    <label>Key: <select id="keySelect"></select></label>
+    <label>Scale: <select id="scaleSelect"></select></label>
+    <label>Instrument: <select id="instrumentSelect">
+      <option value="guitar">Guitar</option>
+      <option value="piano">Piano</option>
+      <option value="ukulele">Ukulele</option>
+      <option value="banjo">Banjo</option>
+      <option value="mandolin">Mandolin</option>
+    </select></label>
+    <button onclick="renderAll()">Render</button>
+  </div>
+
+  <h3 id="scaleTitle"></h3>
+  <p id="scaleNotes" style="font-size: 14px; color: #333;"></p>
+
+  <div class="scale-row">
+    <div>
+      <div class="label">Staff Notation (popup size 240px)</div>
+      <canvas id="staffCanvasSmall" width="240" height="110"></canvas>
+    </div>
+    <div>
+      <div class="label">Staff Notation (wide 360px)</div>
+      <canvas id="staffCanvas" width="360" height="130"></canvas>
+    </div>
+  </div>
+  <div class="scale-row">
+    <div>
+      <div class="label" id="tabLabel">Tablature</div>
+      <canvas id="tabCanvas" width="360" height="140"></canvas>
+    </div>
+  </div>
+
+  <hr>
+  <h3>All Instruments - C Major</h3>
+  <div id="allInstruments"></div>
+
+  <script src="../extension/scales.js"></script>
+  <script src="../extension/chordRenderer.js"></script>
+  <script>
+    // Populate dropdowns
+    const keySelect = document.getElementById('keySelect');
+    const scaleSelect = document.getElementById('scaleSelect');
+
+    ROOT_NOTES.forEach(r => {
+      const opt = document.createElement('option');
+      opt.value = r.name;
+      opt.textContent = r.name + (r.altName ? ' / ' + r.altName : '');
+      keySelect.appendChild(opt);
+    });
+
+    SCALE_TYPES.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      scaleSelect.appendChild(opt);
+    });
+
+    function renderAll() {
+      const key = keySelect.value;
+      const scaleType = scaleSelect.value;
+      const instrument = document.getElementById('instrumentSelect').value;
+
+      const info = getScaleInfo(scaleType, key, instrument);
+      if (!info) return;
+
+      document.getElementById('scaleTitle').textContent = info.name;
+      document.getElementById('scaleNotes').textContent = 'Notes: ' + info.noteNames.join(' - ');
+
+      // Staff
+      const staffCanvas = document.getElementById('staffCanvas');
+      ChordRenderer.drawScaleStaff(staffCanvas, info);
+
+      // Staff (compact / popup size)
+      const staffCanvasSmall = document.getElementById('staffCanvasSmall');
+      ChordRenderer.drawScaleStaff(staffCanvasSmall, info);
+
+      // Tab or Piano
+      const tabCanvas = document.getElementById('tabCanvas');
+      const tabLabel = document.getElementById('tabLabel');
+      if (instrument === 'piano') {
+        tabLabel.textContent = 'Piano Keys (orange = scale notes)';
+        tabCanvas.height = 130;
+        ChordRenderer.drawScalePiano(tabCanvas, info);
+      } else {
+        tabLabel.textContent = 'Tablature (' + instrument + ')';
+        const numStrings = SCALE_TUNINGS[instrument].midi.length;
+        tabCanvas.height = numStrings === 6 ? 150 : 120;
+        ChordRenderer.drawScaleTab(tabCanvas, info, instrument);
+      }
+    }
+
+    // Render all instruments for C Major on load
+    function renderAllInstruments() {
+      const container = document.getElementById('allInstruments');
+      const instruments = ['guitar', 'piano', 'ukulele', 'banjo', 'mandolin'];
+
+      instruments.forEach(inst => {
+        const info = getScaleInfo('major', 'C', inst);
+        if (!info) return;
+
+        const div = document.createElement('div');
+        div.style.marginBottom = '20px';
+
+        const title = document.createElement('div');
+        title.style.fontWeight = 'bold';
+        title.style.marginBottom = '6px';
+        title.textContent = inst.charAt(0).toUpperCase() + inst.slice(1) + ' - ' + info.noteNames.join(' ');
+        div.appendChild(title);
+
+        const row = document.createElement('div');
+        row.className = 'scale-row';
+
+        // Staff
+        const staffC = document.createElement('canvas');
+        staffC.width = 360;
+        staffC.height = 130;
+        ChordRenderer.drawScaleStaff(staffC, info);
+        const staffDiv = document.createElement('div');
+        staffDiv.innerHTML = '<div class="label">Staff</div>';
+        staffDiv.appendChild(staffC);
+        row.appendChild(staffDiv);
+
+        // Tab or Piano
+        const tabC = document.createElement('canvas');
+        tabC.width = 360;
+        if (inst === 'piano') {
+          tabC.height = 130;
+          ChordRenderer.drawScalePiano(tabC, info);
+          const tabDiv = document.createElement('div');
+          tabDiv.innerHTML = '<div class="label">Piano (orange keys)</div>';
+          tabDiv.appendChild(tabC);
+          row.appendChild(tabDiv);
+        } else {
+          const numStrings = SCALE_TUNINGS[inst].midi.length;
+          tabC.height = numStrings === 6 ? 150 : 120;
+          ChordRenderer.drawScaleTab(tabC, info, inst);
+          const tabDiv = document.createElement('div');
+          tabDiv.innerHTML = '<div class="label">Tablature</div>';
+          tabDiv.appendChild(tabC);
+          row.appendChild(tabDiv);
+        }
+
+        div.appendChild(row);
+        container.appendChild(div);
+      });
+    }
+
+    // Initial render
+    renderAll();
+    renderAllInstruments();
+  </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chordFriends – Learn Chords Daily</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header Banner -->
+  <header class="hero">
+    <img src="images/Header-Banner.png" alt="chordFriends" class="hero-img">
+    <div class="hero-text">
+      <p>One chord a day. Five instruments. A Ton Of Fun!</p>
+      <a href="#" class="hero-btn">Add to Chrome – It's Free</a>
+    </div>
+  </header>
+
+  <!-- What is chordFriends -->
+  <section class="intro">
+    <h2>What is chordFriends?</h2>
+    <p>A Chrome extension that teaches you a new chord every single day — across guitar, piano, ukulele, banjo, and mandolin. Open your browser, learn your chord, and play all day!</p>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="daily-chord-box">
+      <h3>📅 Daily Chord</h3>
+      <p>A fresh chord appears every day and makes you want to pick up your instrument.</p>
+      <p>Hover over an instrument for a sample!</p>
+    </div>
+    <div class="instrument-row">
+      <div class="instrument-box" data-instrument="guitar">
+        <span class="inst-emoji inst-emoji-lg">🎸</span>
+        <h4>Guitar</h4>
+      </div>
+      <div class="instrument-box" data-instrument="piano">
+        <span class="inst-emoji">🎹</span>
+        <h4>Piano</h4>
+      </div>
+      <div class="instrument-box" data-instrument="ukulele">
+        <img src="images/ukulele.png" alt="Ukulele" class="inst-img">
+        <h4>Ukulele</h4>
+      </div>
+      <div class="instrument-box" data-instrument="banjo">
+        <span class="inst-emoji">🪕</span>
+        <h4>Banjo</h4>
+      </div>
+      <div class="instrument-box" data-instrument="mandolin">
+        <img src="images/mandolin.png" alt="Mandolin" class="inst-img">
+        <h4>Mandolin</h4>
+      </div>
+    </div>
+    <!-- Preview area (between instruments and diagram box) -->
+    <div id="chord-preview" class="chord-preview" style="display:none;">
+      <div class="preview-header">
+        <span id="preview-title"></span>
+      </div>
+      <div class="preview-canvases">
+        <canvas id="preview-canvas1"></canvas>
+        <canvas id="preview-canvas2" style="display:none;"></canvas>
+      </div>
+    </div>
+    <div class="daily-chord-box" id="diagramStaffBox">
+      <h3>🎵 Diagram + Staff</h3>
+      <p>See the fretboard or keyboard diagram, staff notation, or both together.</p>
+    </div>
+    <!-- Preview area for Diagram + Staff -->
+    <div id="staff-preview" class="chord-preview" style="display:none;">
+      <div class="preview-header">
+        <span id="staff-preview-title"></span>
+      </div>
+      <div class="preview-canvases">
+        <canvas id="staff-canvas1"></canvas>
+        <canvas id="staff-canvas2"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium -->
+  <section class="premium">
+    <h2>Go Premium</h2>
+    <p class="premium-sub">Unlock everything for maximum enjoyment and learning.</p>
+    <div class="premium-grid">
+      <div class="prem-card">
+        <span class="prem-icon">🔊</span>
+        <h3>Hear Every Chord</h3>
+        <p>Tap to hear how any chord sounds, right in the popup.</p>
+      </div>
+      <div class="prem-card">
+        <span class="prem-icon">🎤</span>
+        <h3>Song Examples</h3>
+        <p>Find real songs that use the chord you're learning.</p>
+      </div>
+      <div class="prem-card">
+        <span class="prem-icon">🎯</span>
+        <h3>Difficulty Levels</h3>
+        <p>Start easy and progress, go random, or jump to advanced chords.</p>
+      </div>
+      <div class="prem-card">
+        <span class="prem-icon">📋</span>
+        <h3>Full Chord Library</h3>
+        <p>Browse any chord anytime. View complete chord charts per instrument.</p>
+      </div>
+      <div class="prem-card">
+        <span class="prem-icon" style="font-size: 46px; letter-spacing: -4px;">🎸🪕</span>
+        <h3>Multi-Instrument View</h3>
+        <p>Select multiple instruments at once and see the same chord or scale on all of them side by side.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="comparison">
+    <h2>Free vs Premium</h2>
+    <div class="compare-row">
+      <div class="compare-box compare-free">
+        <h3>Free</h3>
+        <ul>
+          <li>✅ Daily chord (one per day)</li>
+          <li>✅ 5 instruments</li>
+          <li>✅ Diagram &amp; staff notation</li>
+        </ul>
+      </div>
+      <div class="compare-box compare-premium">
+        <h3>Premium</h3>
+        <ul>
+          <li>✅ Everything in Free</li>
+          <li>⭐ Choose difficulty level</li>
+          <li>⭐ Browse any chord (All Chords)</li>
+          <li>⭐ Full chord charts</li>
+          <li>⭐ Hear chord sounds</li>
+          <li>⭐ Song examples</li>
+          <li>⭐ Multi-instrument view</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Start Learning Chords Today</h2>
+    <p>Install for free. Upgrade when you're ready.</p>
+    <a href="#" class="cta-btn">Install chordFriends</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 chordFriends. All rights reserved.</p>
+  </footer>
+
+  <script src="../extension/chords.js"></script>
+  <script src="../extension/chordRenderer.js"></script>
+  <script>
+    const sampleChords = {
+      guitar: 'C',
+      piano: 'C',
+      ukulele: 'C',
+      banjo: 'G',
+      mandolin: 'G'
+    };
+
+    function showPreview(inst) {
+      const sym = sampleChords[inst];
+      const chord = CHORD_DATA[inst].find(c => c.symbol === sym);
+      if (!chord) return;
+
+      const preview = document.getElementById('chord-preview');
+      const title = document.getElementById('preview-title');
+      const c1 = document.getElementById('preview-canvas1');
+      const c2 = document.getElementById('preview-canvas2');
+
+      title.textContent = chord.name + ' — ' + inst.charAt(0).toUpperCase() + inst.slice(1);
+      c2.style.display = 'none';
+
+      if (inst === 'piano') {
+        c1.width = 280; c1.height = 160;
+      } else {
+        c1.width = 220; c1.height = 220;
+      }
+
+      if (inst === 'piano') {
+        ChordRenderer.drawPiano(c1, chord);
+      } else {
+        ChordRenderer.drawFretted(c1, chord, inst);
+      }
+
+      preview.style.display = 'block';
+    }
+
+    function showBothPreview() {
+      const chord = CHORD_DATA.guitar.find(c => c.symbol === 'C');
+      if (!chord) return;
+
+      const preview = document.getElementById('staff-preview');
+      const title = document.getElementById('staff-preview-title');
+      const c1 = document.getElementById('staff-canvas1');
+      const c2 = document.getElementById('staff-canvas2');
+
+      title.textContent = 'C Major — Guitar (Diagram + Staff)';
+      c1.width = 220; c1.height = 200;
+      c2.width = 220; c2.height = 160;
+
+      ChordRenderer.drawFretted(c1, chord, 'guitar');
+      ChordRenderer.drawStaff(c2, chord, 'guitar');
+
+      preview.style.display = 'block';
+    }
+
+    function hidePreview() {
+      document.getElementById('chord-preview').style.display = 'none';
+    }
+
+    function hideStaffPreview() {
+      document.getElementById('staff-preview').style.display = 'none';
+    }
+
+    const instrumentBoxes = document.querySelectorAll('.instrument-box[data-instrument]');
+    instrumentBoxes.forEach(box => {
+      box.style.cursor = 'pointer';
+      box.addEventListener('mouseenter', () => showPreview(box.dataset.instrument));
+    });
+
+    // Only hide preview when mouse leaves the entire instrument row
+    const instrumentRow = document.querySelector('.instrument-row');
+    instrumentRow.addEventListener('mouseleave', hidePreview);
+
+    const dsBox = document.getElementById('diagramStaffBox');
+    dsBox.style.cursor = 'pointer';
+    dsBox.addEventListener('mouseenter', showBothPreview);
+    dsBox.addEventListener('mouseleave', hideStaffPreview);
+  </script>
+
+</body>
+</html>

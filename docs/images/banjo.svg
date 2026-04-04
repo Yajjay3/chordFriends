@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Banjo - round drum body, long neck -->
+  <!-- Neck (long) -->
+  <rect x="45" y="5" width="10" height="50" rx="2" fill="#c8944a" stroke="#8b6914" stroke-width="1.5"/>
+  <!-- Frets -->
+  <line x1="45" y1="15" x2="55" y2="15" stroke="#8b6914" stroke-width="1"/>
+  <line x1="45" y1="25" x2="55" y2="25" stroke="#8b6914" stroke-width="1"/>
+  <line x1="45" y1="35" x2="55" y2="35" stroke="#8b6914" stroke-width="1"/>
+  <line x1="45" y1="45" x2="55" y2="45" stroke="#8b6914" stroke-width="1"/>
+  <!-- Headstock -->
+  <rect x="43" y="1" width="14" height="8" rx="3" fill="#5c3d1a" stroke="#3d2810" stroke-width="1"/>
+  <!-- Tuning pegs -->
+  <circle cx="44" cy="4" r="2" fill="#d4a84b"/>
+  <circle cx="44" cy="8" r="2" fill="#d4a84b"/>
+  <circle cx="56" cy="4" r="2" fill="#d4a84b"/>
+  <circle cx="56" cy="8" r="2" fill="#d4a84b"/>
+  <!-- Drum body (circular) -->
+  <circle cx="50" cy="72" r="25" fill="#f5f0e8" stroke="#8b7355" stroke-width="2.5"/>
+  <!-- Drum rim -->
+  <circle cx="50" cy="72" r="23" fill="none" stroke="#b0956e" stroke-width="1"/>
+  <!-- Tension brackets (dots around rim) -->
+  <circle cx="50" cy="49" r="1.5" fill="#8b7355"/>
+  <circle cx="67" cy="55" r="1.5" fill="#8b7355"/>
+  <circle cx="74" cy="72" r="1.5" fill="#8b7355"/>
+  <circle cx="67" cy="89" r="1.5" fill="#8b7355"/>
+  <circle cx="50" cy="95" r="1.5" fill="#8b7355"/>
+  <circle cx="33" cy="89" r="1.5" fill="#8b7355"/>
+  <circle cx="26" cy="72" r="1.5" fill="#8b7355"/>
+  <circle cx="33" cy="55" r="1.5" fill="#8b7355"/>
+  <!-- Bridge -->
+  <rect x="44" y="75" width="12" height="2.5" rx="1" fill="#5c3d1a"/>
+  <!-- Tailpiece -->
+  <rect x="47" y="93" width="6" height="4" rx="1" fill="#8b7355"/>
+  <!-- Strings -->
+  <line x1="47" y1="8" x2="47" y2="93" stroke="#f0d890" stroke-width="0.5"/>
+  <line x1="50" y1="8" x2="50" y2="93" stroke="#f0d890" stroke-width="0.5"/>
+  <line x1="53" y1="8" x2="53" y2="93" stroke="#f0d890" stroke-width="0.5"/>
+</svg>
