@@ -1,6 +1,6 @@
 // chordFriends - Popup Logic
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const canvas = document.getElementById('chordCanvas');
   const staffCanvas = document.getElementById('staffCanvas');
   const chordNameEl = document.getElementById('chordName');
@@ -744,7 +744,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const isPremium = false; // Set to false to enable premium gating
+  // ── ExtensionPay license check ──
+  const extpay = ExtPay('chordfriends');
+  const user = await extpay.getUser();
+  const isPremium = user.paid;
 
   // ── Footer Plan button ──
   const footerPlanBtn = document.getElementById('footerPlanBtn');
@@ -758,7 +761,7 @@ document.addEventListener('DOMContentLoaded', () => {
     footerPlanBtn.textContent = 'Get Premium';
     footerPlanBtn.classList.remove('is-premium');
     footerPlanBtn.addEventListener('click', () => {
-      chrome.tabs.create({ url: 'https://chordfriends.com/premium' });
+      extpay.openPaymentPage();
     });
   }
 

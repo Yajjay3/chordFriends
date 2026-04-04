@@ -1,5 +1,7 @@
 // chordFriends - Background Service Worker
-// Sets up daily alarm for badge updates
+importScripts('extpay.js');
+const extpay = ExtPay('chordfriends');
+extpay.startBackground();
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.alarms.create('dailyChord', {

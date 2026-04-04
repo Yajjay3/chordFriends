@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Learn a new chord every day! Guitar, piano, ukulele, banjo, and mandolin chord diagrams and staff notation.",
   "permissions": ["storage", "alarms"],
+  "host_permissions": ["https://extensionpay.com/*"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -19,5 +20,9 @@
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": ["extpay.js"],
+    "matches": ["<all_urls>"]
+  }]
 }
