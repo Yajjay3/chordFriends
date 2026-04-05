@@ -98,6 +98,14 @@ body {
   transition: box-shadow 0.2s ease;
 }
 
+#diagramStaffBox {
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .daily-chord-box:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
@@ -133,6 +141,11 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .instrument-box:hover,

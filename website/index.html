@@ -169,6 +169,30 @@
       });
     }
 
+    function addActivationHandlers(element, handler) {
+      element.setAttribute('role', 'button');
+      element.setAttribute('tabindex', '0');
+
+      element.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        handler();
+      });
+
+      element.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        handler();
+      }, { passive: false });
+
+      element.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handler();
+        }
+      });
+    }
+
     function showPreview(inst) {
       const sym = sampleChords[inst];
       const chord = CHORD_DATA[inst].find(c => c.symbol === sym);
@@ -239,11 +263,7 @@
         box.addEventListener('mouseenter', () => showPreview(box.dataset.instrument));
       }
 
-      box.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        showPreview(box.dataset.instrument);
-      });
+      addActivationHandlers(box, () => showPreview(box.dataset.instrument));
     });
 
     const instrumentRow = document.querySelector('.instrument-row');
@@ -259,11 +279,7 @@
       dsBox.addEventListener('mouseleave', hideStaffPreview);
     }
 
-    dsBox.addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      showBothPreview();
-    });
+    addActivationHandlers(dsBox, showBothPreview);
 
     document.addEventListener('click', (event) => {
       if (!event.target.closest('.instrument-row') && !event.target.closest('#chord-preview')) {
