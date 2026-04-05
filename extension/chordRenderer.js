@@ -153,7 +153,7 @@ const ChordRenderer = {
     // String labels
     const labels = this.stringLabels[instrument] || this.stringLabels.guitar;
     ctx.fillStyle = this.colors.label;
-    ctx.font = stringCount <= 4 ? 'bold 13px sans-serif' : 'bold 12px sans-serif';
+    ctx.font = stringCount <= 4 ? 'bold 14px sans-serif' : 'bold 13px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     for (let i = 0; i < stringCount; i++) {
@@ -482,7 +482,7 @@ const ChordRenderer = {
 
       // Note name below staff
       ctx.fillStyle = this.colors.label;
-      ctx.font = compact ? 'bold 10px sans-serif' : 'bold 12px sans-serif';
+      ctx.font = compact ? 'bold 11px sans-serif' : 'bold 13px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       ctx.fillText(note.noteName, x, bottomLineY + lineGap + (compact ? 4 : 8));
@@ -574,7 +574,7 @@ const ChordRenderer = {
 
     // Note names below tab
     ctx.fillStyle = this.colors.label;
-    ctx.font = 'bold 12px sans-serif';
+    ctx.font = 'bold 13px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     const labelY = topPad + (numStrings - 1) * lineSpacing + 12;
