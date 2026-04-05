@@ -29,7 +29,7 @@
     <div class="daily-chord-box">
       <h3>📅 Daily Chord</h3>
       <p>A fresh chord appears every day and makes you want to pick up your instrument.</p>
-      <p>Hover over an instrument for a sample!</p>
+      <p>Hover or tap an instrument for a sample!</p>
     </div>
     <div class="instrument-row">
       <div class="instrument-box" data-instrument="guitar">
@@ -161,23 +161,36 @@
       mandolin: 'G'
     };
 
+    const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const instrumentBoxes = document.querySelectorAll('.instrument-box[data-instrument]');
+
+    function setActiveInstrument(inst) {
+      instrumentBoxes.forEach(box => {
+        box.classList.toggle('active', box.dataset.instrument === inst);
+      });
+    }
+
     function showPreview(inst) {
       const sym = sampleChords[inst];
       const chord = CHORD_DATA[inst].find(c => c.symbol === sym);
       if (!chord) return;
 
+      const isMobile = window.matchMedia('(max-width: 600px)').matches;
       const preview = document.getElementById('chord-preview');
       const title = document.getElementById('preview-title');
       const c1 = document.getElementById('preview-canvas1');
       const c2 = document.getElementById('preview-canvas2');
 
+      setActiveInstrument(inst);
       title.textContent = chord.name + ' — ' + inst.charAt(0).toUpperCase() + inst.slice(1);
       c2.style.display = 'none';
 
       if (inst === 'piano') {
-        c1.width = 280; c1.height = 160;
+        c1.width = isMobile ? 240 : 280;
+        c1.height = isMobile ? 140 : 160;
       } else {
-        c1.width = 220; c1.height = 220;
+        c1.width = isMobile ? 180 : 220;
+        c1.height = isMobile ? 180 : 220;
       }
 
       if (inst === 'piano') {
@@ -193,14 +206,17 @@
       const chord = CHORD_DATA.guitar.find(c => c.symbol === 'C');
       if (!chord) return;
 
+      const isMobile = window.matchMedia('(max-width: 600px)').matches;
       const preview = document.getElementById('staff-preview');
       const title = document.getElementById('staff-preview-title');
       const c1 = document.getElementById('staff-canvas1');
       const c2 = document.getElementById('staff-canvas2');
 
       title.textContent = 'C Major — Guitar (Diagram + Staff)';
-      c1.width = 220; c1.height = 200;
-      c2.width = 220; c2.height = 160;
+      c1.width = isMobile ? 180 : 220;
+      c1.height = isMobile ? 170 : 200;
+      c2.width = isMobile ? 180 : 220;
+      c2.height = isMobile ? 130 : 160;
 
       ChordRenderer.drawFretted(c1, chord, 'guitar');
       ChordRenderer.drawStaff(c2, chord, 'guitar');
@@ -210,26 +226,55 @@
 
     function hidePreview() {
       document.getElementById('chord-preview').style.display = 'none';
+      setActiveInstrument(null);
     }
 
     function hideStaffPreview() {
       document.getElementById('staff-preview').style.display = 'none';
     }
 
-    const instrumentBoxes = document.querySelectorAll('.instrument-box[data-instrument]');
     instrumentBoxes.forEach(box => {
       box.style.cursor = 'pointer';
-      box.addEventListener('mouseenter', () => showPreview(box.dataset.instrument));
+
+      if (supportsHover) {
+        box.addEventListener('mouseenter', () => showPreview(box.dataset.instrument));
+      }
+
+      box.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        showPreview(box.dataset.instrument);
+      });
     });
 
-    // Only hide preview when mouse leaves the entire instrument row
     const instrumentRow = document.querySelector('.instrument-row');
-    instrumentRow.addEventListener('mouseleave', hidePreview);
+    if (supportsHover) {
+      instrumentRow.addEventListener('mouseleave', hidePreview);
+    }
 
     const dsBox = document.getElementById('diagramStaffBox');
     dsBox.style.cursor = 'pointer';
-    dsBox.addEventListener('mouseenter', showBothPreview);
-    dsBox.addEventListener('mouseleave', hideStaffPreview);
+
+    if (supportsHover) {
+      dsBox.addEventListener('mouseenter', showBothPreview);
+      dsBox.addEventListener('mouseleave', hideStaffPreview);
+    }
+
+    dsBox.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      showBothPreview();
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.instrument-row') && !event.target.closest('#chord-preview')) {
+        hidePreview();
+      }
+
+      if (!event.target.closest('#diagramStaffBox') && !event.target.closest('#staff-preview')) {
+        hideStaffPreview();
+      }
+    });
   </script>
 
 </body>
