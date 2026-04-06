@@ -784,12 +784,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     selectedInstruments = [currentInstrument];
 
-    currentMode = 'both';
     viewBtns.forEach(btn => {
-      const isBoth = btn.dataset.mode === 'both';
-      btn.classList.toggle('active', isBoth);
-      btn.disabled = true;
-      btn.classList.add('disabled-premium');
+      btn.disabled = false;
+      btn.classList.remove('disabled-premium');
     });
 
     currentDifficulty = 'progressive';
@@ -866,11 +863,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       selectedInstruments = [currentInstrument];
       tabs.forEach(t => t.classList.toggle('active', t.dataset.instrument === currentInstrument));
     }
-    if (isPremium && result.viewMode) {
+    if (result.viewMode) {
       currentMode = result.viewMode;
-      viewBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === currentMode));
-    } else if (!isPremium) {
-      currentMode = 'both';
       viewBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === currentMode));
     }
     if (isPremium && result.difficulty) {
