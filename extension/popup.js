@@ -746,8 +746,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ── ExtensionPay license check ──
   const extpay = ExtPay('chordfriends');
-  const user = await extpay.getUser();
-  const isPremium = user.paid;
+  let isPremium = false;
+  try {
+    const user = await extpay.getUser();
+    isPremium = !!user.paid;
+  } catch (error) {
+    console.warn('ExtensionPay check failed; continuing in free mode.', error);
+  }
 
   // ── Footer Plan button ──
   const footerPlanBtn = document.getElementById('footerPlanBtn');
@@ -768,30 +773,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   hearChordBtn.disabled = !isPremium;
   hearSongBtn.disabled = !isPremium;
   if (!isPremium) {
-    // Allow any one instrument to be selected in free mode
+    // Free mode: only one instrument and the Chords/Scales/Both selector are user-configurable.
     tabs.forEach(t => {
       t.classList.remove('active');
       t.disabled = false;
       t.classList.remove('disabled-premium');
     });
-    // Set current instrument as active
     tabs.forEach(t => {
       if (t.dataset.instrument === currentInstrument) t.classList.add('active');
     });
     selectedInstruments = [currentInstrument];
-    // Premium buttons: visible but disabled and styled lighter
-    // Show dropdown on hover, but only 'Easy → Hard' is enabled
-    difficultyBtn.disabled = false;
-    difficultyBtn.classList.remove('disabled-premium');
-    diffItems.forEach(i => {
-      if (i.dataset.difficulty === 'progressive') {
-        i.disabled = false;
-        i.classList.remove('disabled-premium');
-      } else {
-        i.disabled = true;
-        i.classList.add('disabled-premium');
-      }
+
+    currentMode = 'both';
+    viewBtns.forEach(btn => {
+      const isBoth = btn.dataset.mode === 'both';
+      btn.classList.toggle('active', isBoth);
+      btn.disabled = true;
+      btn.classList.add('disabled-premium');
     });
+
+    currentDifficulty = 'progressive';
+    difficultyBtn.textContent = 'Easy → Hard';
+    difficultyBtn.disabled = true;
+    difficultyBtn.classList.add('disabled-premium');
+    diffItems.forEach(i => {
+      const isProgressive = i.dataset.difficulty === 'progressive';
+      i.classList.toggle('active', isProgressive);
+      i.disabled = true;
+      i.classList.add('disabled-premium');
+    });
+
+    randomOn = false;
+    randomToggle.classList.remove('active');
+    randomToggle.disabled = true;
+    randomToggle.classList.add('disabled-premium');
+
     allChordsBtn.disabled = true;
     allChordsBtn.classList.add('disabled-premium');
     chordChartBtn.disabled = true;
@@ -800,12 +816,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     hearChordBtn.classList.add('disabled-premium');
     hearSongBtn.disabled = true;
     hearSongBtn.classList.add('disabled-premium');
-    // Prevent dropdowns from opening
+
     allChordsBtn.onclick = (e) => e.preventDefault();
     chordChartBtn.onclick = (e) => e.preventDefault();
-    // Force daily mode: no browsing
+
     selectedChordIndex = null;
     selectedScaleIndex = null;
+    chrome.storage.local.set({
+      instruments: selectedInstruments,
+      viewMode: currentMode,
+      difficulty: currentDifficulty,
+      randomOn: false
+    });
   }
 
   hearChordBtn.addEventListener('click', () => {
@@ -844,11 +866,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       selectedInstruments = [currentInstrument];
       tabs.forEach(t => t.classList.toggle('active', t.dataset.instrument === currentInstrument));
     }
-    if (result.viewMode) {
+    if (isPremium && result.viewMode) {
       currentMode = result.viewMode;
       viewBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === currentMode));
+    } else if (!isPremium) {
+      currentMode = 'both';
+      viewBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === currentMode));
     }
-    if (result.difficulty) {
+    if (isPremium && result.difficulty) {
       currentDifficulty = result.difficulty;
       diffItems.forEach(i => {
         i.classList.toggle('active', i.dataset.difficulty === currentDifficulty);
@@ -857,14 +882,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
       difficultyBtn.classList.add('active');
+    } else if (!isPremium) {
+      currentDifficulty = 'progressive';
+      diffItems.forEach(i => i.classList.toggle('active', i.dataset.difficulty === currentDifficulty));
+      difficultyBtn.textContent = 'Easy → Hard';
     }
     if (result.contentMode) {
       currentContent = result.contentMode;
       updateContentLabels();
     }
-    if (result.randomOn) {
+    if (isPremium && result.randomOn) {
       randomOn = true;
       randomToggle.classList.add('active');
+    } else if (!isPremium) {
+      randomOn = false;
+      randomToggle.classList.remove('active');
     }
     renderChord();
   });
